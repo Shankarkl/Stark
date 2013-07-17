@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+	
+	<link rel="stylesheet" href="css/main.css" type="text/css" />
+	
+	<link rel="stylesheet" href="css@font/font-awesome.css">
+	<link rel="stylesheet" href="css@font/font-awesome.min.css">
+	<link rel="stylesheet" href="css@font/font-awesome-ie7.min.css">
+	
+	<script type="text/javascript" src="jquery.js"></script>
+ 
+	
+	
+	<script>
+	$(document).ready(function(){
+	$('support').cors = true;
+    $('mobile').allowCrossDomainPages = true;
+
+	});
+	</script>
+	
+    <script type="text/javascript">
+    
+   
+    
+function begi()
+ {
+
+    	var uname = document.getElementById('email').value;
+    	var pass = document.getElementById('password').value;
+     		var soap='<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"> \
+	  				<soap:Body>\
+    				<validUser xmlns="http://tempuri.org/"> \
+      				<username>'+uname+'</username> \
+      				<password>'+pass+'</password> \
+    				</validUser> \
+  					</soap:Body> \
+					</soap:Envelope>';
+				
+				
+			$.ajax({
+				type: "POST",
+				url: "http://118.139.160.226:8092/StarSevice.asmx?op=validUser",
+				dataType: "xml",
+				data: soap,
+				contentType: "text/xml; charset=\"utf-8\"",
+				
+				success: function(xml) 
+				{					
+						var rv = $(xml).find('validUserResult').text();
+						if(rv=='true')
+							{
+								
+								window.location.href = "starapp.html";
+							}
+						else
+							{
+							alert('Login failed!');
+							}
+				}
+				
+			});			
+ }
+    
+   	
+    	
+    	
+     </script>
+</head>
+
+<body>
+<div id ="main">
+<form class="app">
+  <header class="header">
+    <h1 class="header-title"><img src="images/mainlogo.png"></h1>
+    </header>
+  <section class="container">
+    <h2 class="heading">LOGIN</h2>
+    <fieldset>
+      <span class="loginSpan">CELL NUMBER</span>
+      <p> 
+        <!-- <label for="email" class="text-label">Email</label>-->
+        <input type="text" name="email" id="email" class="text-field" />
+      </p>
+      <br>
+      <span class="loginSpan">PASSWORD</span>
+      <p> 
+        <!--<label for="password" class="text-label">Password</label>-->
+        <input type="password" name="password" id="password" class="text-field" />
+      </p>
+    </fieldset>
+    <div>
+      <input type="button" name="login" value="Login" onclick="begi();" class="buttonLogin fr" />
+    </div>
+    <div class="clear"></div>
+    <div><a href="reg.html" class="fl"><span style="position:relative; left:11px;" class="regFor">Register</span></a> <a href="#" class="fr"><span style="position:relative; right:11px;" class="regFor">Forgot Password</span></a></div>
+  </section>
+</form>
+</div>
+</body>
+
+</html>

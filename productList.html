@@ -1,0 +1,82 @@
+<!-- Copyright (c) 2013 Thibaut Courouble -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Mobile UI</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/demo.css">
+  <link rel="stylesheet" href="css@font/font-awesome.css">
+<link rel="stylesheet" href="css@font/font-awesome.min.css">
+<link rel="stylesheet" href="css@font/font-awesome-ie7.min.css">
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+	$('support').cors = true;
+	$('mobile').allowCrossDomainPages = true;
+	});
+	</script>
+<script type="text/javascript">
+
+		 var productServiceUrl = 'http://118.139.160.226:8092/StarSevice.asmx/GetActiveProductList'; // Preferably write this out from server side
+		 var soapMessage =
+		 '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"> \
+		 <soap:Body> \
+		  <GetActiveProductList xmlns="http://tempuri.org/" /> \
+		 </soap:Body> \
+		 </soap:Envelope>';
+
+		 $.ajax({
+			 	
+			 url: productServiceUrl,
+			 type: "POST",
+			 dataType: "xml",
+			 data: soapMessage,
+			 contentType: "text/xml; charset=\"utf-8\"",
+			 success: function(xml) {
+				
+			 $(xml).find('Products').each(function(){
+			 		  
+			 		  var id=$(this).find('ProductInfoID').text();
+			 		  var name=$(this).find('ProductName').text();
+			 		  
+			 	//	 $(productlist).append('<div onclick=productdescp('+id+');>'+name+'</div>');
+			 	//	 $(productlist).append("<br/>");
+			 		 
+			 		$(productlist).append('<ul class=boxed-list> <li class="boxed-list-row tappable" onclick="productdescp('+id+');">'+name+'</li></ul>');
+			 	  });
+			 		
+			 	}
+			 });
+		 
+	
+function productdescp(id1)
+{	
+	//window.localStorage.setItem("id", id1);  
+	
+	//setCookie('id', id1, 2000);
+	window.location.href = "pd.html?id="+id1;
+}
+	 </script>
+</head>
+
+<body>
+  <div id="productlist">
+  <div>
+  <header class="header">
+    <h1 class="header-title"><img src="images/mainlogo.png"></h1>
+    <a href="starapp.html" class="header-button backbtn left"></a> <a href="starapp.html" class="header-button homebtn right"></a></header>
+ <div class="btop">   
+  <section class="container" >
+    <h2 class="boxed-list-title">Product</h2>
+    
+    </section>
+    </div>
+  </div>
+</div>
+  </body>
+</html>

@@ -1,0 +1,108 @@
+<!-- Copyright (c) 2013 Thibaut Courouble -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Mobile UI</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  <link rel="stylesheet" href="css@font/font-awesome.css">
+  <link rel="stylesheet" href="css@font/font-awesome.min.css">
+	<link rel="stylesheet" href="css@font/font-awesome-ie7.min.css">
+	<link href="css/newstyle.css" rel="stylesheet" type="text/css">
+	
+	<link href="css/main1.css" rel="stylesheet" type="text/css">
+	
+
+	<script type="text/javascript" src="jquery.js"></script>
+	
+    <script type="text/javascript">
+	$(document).ready(function(){
+	$('support').cors = true;
+	$('mobile').allowCrossDomainPages = true;
+	});
+	</script>
+	<script type="text/javascript">
+	
+	
+		// var stringValue = window.localStorage.getItem("id");
+		function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+}
+		
+		
+		var stringValues= getUrlVars()["id"];	
+     	
+			var soap='<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"> \
+	  				<soap:Body> \
+    				<GetProductByID xmlns="http://tempuri.org/"> \
+    					<ProductID>'+stringValues+'</ProductID> \
+    				</GetProductByID> \
+  					</soap:Body> \
+					</soap:Envelope>';
+					
+			$.ajax({
+				type: "POST",
+				url: "http://118.139.160.226:8092/StarSevice.asmx?op=GetProductByID",
+				dataType: "xml",
+				data: soap,
+				contentType: "text/xml; charset=\"utf-8\"",
+				success: function(xml)  
+				{
+					var name = $(xml).find('ProductName').text();
+					var desc = $(xml).find('ProductDescription').text();
+						
+					$('#name').html(name);
+					$('#desc').html(desc);
+					var htmlstr='<br \><br \><br \>'+$('#desc').text();
+					//htmlstr=htmlstr.replace('table width="620"','table width="480"');
+					$('#desc').html(htmlstr);
+				},
+				error: function(e)
+				{
+					alert("error");
+				}
+			});
+		
+		
+	
+     </script>
+     
+     
+</head>
+<body style="background-color:#fff;">
+
+	<header  class="p_header">
+	
+    <h1 class="header-title"><img src="images/mainlogo.png"></h1>
+     <a href="productList.html" class="header-button backbtn left" ></a> <a href="starapp.html" class="header-button homebtn right" ></a> 
+     <!-- <div class="header-button backbtn left" id="backbut" > </div> <div class="header-button homebtn right" id="homebut"></div>-->
+    </header>
+    <div class="p_container">
+     
+    
+    
+        <h2 class="p_title">Product</h2>
+        <section class="container">
+    </section>
+    
+     <div class="p_left">
+    <ul >
+      <li class="p_li"> <a href="list-2.html" class="boxed-list-link" id="name" ></a> </li>
+
+      </ul>      
+    </div>
+    
+   </div>
+    
+        <div id="desc" class="descst">
+
+</div>
+</body>
+</html>
